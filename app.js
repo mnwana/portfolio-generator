@@ -11,23 +11,26 @@ function saveFile(answers) {
 }
 
 const promptUser = () => {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "name",
-        message: "What is your name?",
-      },
-      {
-        type: "input",
-        name: "github",
-        message: "What is your username?",
-      },
-    ])
-    .then((answers) => {
-      console.log(answers);
-      saveFile(answers);
-    });
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "input",
+      name: "github",
+      message: "What is your GitHub username?",
+    },
+    {
+      type: "input",
+      name: "about",
+      message: "Provide some information about yourself:",
+    },
+  ]);
 };
 
-promptUser();
+promptUser().then((answers) => {
+  console.log(answers);
+  saveFile(answers);
+});
