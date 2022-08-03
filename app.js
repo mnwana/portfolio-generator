@@ -1,11 +1,29 @@
 const fs = require("fs");
-const generatePage = require('./src/page-template.js');
+const inquirer = require("inquirer");
+const generatePage = require("./src/page-template.js");
 
-const profileDataArgs = process.argv.slice(2, process.argv.length);
+function saveFile(answers) {
+  var pageHtml = generatePage(answers.name, answers.github);
+  fs.writeFile(`index.html`, pageHtml, (err) => {
+    if (err) throw err;
+    console.log("File created at index.html");
+  });
+}
 
-const [name, github] = profileDataArgs;
-
-fs.writeFile(`index.html`, generatePage(name, github), (err) => {
-  if (err) throw err;
-  console.log("File created at index.html");
-});
+inquirer
+  .prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "input",
+      name: "github",
+      message: "What is your username?",
+    },
+  ])
+  .then((answers) => {
+    console.log(answers);
+    saveFile(answers);
+  });
