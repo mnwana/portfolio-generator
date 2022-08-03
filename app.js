@@ -10,20 +10,24 @@ function saveFile(answers) {
   });
 }
 
-inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is your name?",
-    },
-    {
-      type: "input",
-      name: "github",
-      message: "What is your username?",
-    },
-  ])
-  .then((answers) => {
-    console.log(answers);
-    saveFile(answers);
-  });
+const promptUser = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is your name?",
+      },
+      {
+        type: "input",
+        name: "github",
+        message: "What is your username?",
+      },
+    ])
+    .then((answers) => {
+      console.log(answers);
+      saveFile(answers);
+    });
+};
+
+promptUser();
