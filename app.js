@@ -1,6 +1,7 @@
+const { writeFile, copyFile } = require('./utils/generate-site.js');
+const generatePage = require("./src/page-template.js");
 const fs = require("fs");
 const inquirer = require("inquirer");
-const generatePage = require("./src/page-template.js");
 
 function saveFile(answers) {
   var pageHtml = generatePage(answers.name, answers.github);
@@ -116,58 +117,66 @@ const promptProject = (portfolioData) => {
 };
 
 const mockData = {
-  name: 'Lernantino',
-  github: 'lernantino',
+  name: "Lernantino",
+  github: "lernantino",
   confirmAbout: true,
   about:
-    'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et.',
+    "Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et.",
   projects: [
     {
-      name: 'Run Buddy',
+      name: "Run Buddy",
       description:
-        'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-      languages: ['HTML', 'CSS'],
-      link: 'https://github.com/lernantino/run-buddy',
+        "Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.",
+      languages: ["HTML", "CSS"],
+      link: "https://github.com/lernantino/run-buddy",
       feature: true,
-      confirmAddProject: true
+      confirmAddProject: true,
     },
     {
-      name: 'Taskinator',
+      name: "Taskinator",
       description:
-        'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-      languages: ['JavaScript', 'HTML', 'CSS'],
-      link: 'https://github.com/lernantino/taskinator',
+        "Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.",
+      languages: ["JavaScript", "HTML", "CSS"],
+      link: "https://github.com/lernantino/taskinator",
       feature: true,
-      confirmAddProject: true
+      confirmAddProject: true,
     },
     {
-      name: 'Taskmaster Pro',
+      name: "Taskmaster Pro",
       description:
-        'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-      languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
-      link: 'https://github.com/lernantino/taskmaster-pro',
+        "Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.",
+      languages: ["JavaScript", "jQuery", "CSS", "HTML", "Bootstrap"],
+      link: "https://github.com/lernantino/taskmaster-pro",
       feature: false,
-      confirmAddProject: true
+      confirmAddProject: true,
     },
     {
-      name: 'Robot Gladiators',
+      name: "Robot Gladiators",
       description:
-        'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.',
-      languages: ['JavaScript'],
-      link: 'https://github.com/lernantino/robot-gladiators',
+        "Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.",
+      languages: ["JavaScript"],
+      link: "https://github.com/lernantino/robot-gladiators",
       feature: false,
-      confirmAddProject: false
-    }
-  ]
+      confirmAddProject: false,
+    },
+  ],
 };
 
-const pageHTML = generatePage(mockData);
-
-// promptUser()
-//   .then(promptProject)
-//   .then(portfolioData => {
-//     const pageHTML = generatePage();
-    fs.writeFile('./index.html', pageHTML, err => {
-      if (err) throw new Error(err);
-    });
-//   });
+promptUser()
+  .then(promptProject)
+  .then(portfolioData => {
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
+  });
